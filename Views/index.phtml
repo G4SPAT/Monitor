@@ -1,0 +1,42 @@
+<?php require('template/header.phtml') ?>
+
+
+
+
+<form name='form' method='post' action="../publish.php">
+    <h1> Change values </h1>
+  <input type="text" name="set1" id="set1" ><br/>
+
+
+
+
+
+<select name="point">
+    <option value="setpoint1">Setpoint 1</option>
+    <option value="setpoint2">Setpoint 2</option>
+    <option value="setpoint3">Setpoint 3</option>
+    <option value="setpoint4">Setpoint 4</option>
+    <input type="submit" name="submit" value="Submit">
+
+</select>
+
+</form>
+
+<form name='form' method='post' action="../subscribe.php">
+    <h1> Read values </h1>
+
+
+
+
+
+
+    <select name="c">
+        <option value="1">Setpoint 1</option>
+        <option value="2">Setpoint 2</option>
+        <option value="3">Setpoint 3</option>
+        <option value="4">Setpoint 4</option>
+        <input type="submit" name="submit" value="Submit" action="../subscribe.php">
+
+    </select>
+
+<?php require('template/footer.phtml') ?>

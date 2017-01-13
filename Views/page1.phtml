@@ -1,0 +1,18 @@
+<?php require('template/header.phtml') ?>
+
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th> ID</th><th>Value</th> </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($view->DataSet as $Data) {
+                echo '<tr> <td>' . $Data->getID() . '</td> <td>' . $Data->getValue() . '</td> </tr>';
+            }
+            ?>
+            </tbody>
+        </table>
+    </form>
+
+<?php require('template/footer.phtml') ?>

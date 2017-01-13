@@ -1,0 +1,22 @@
+<?php require('Models/phpMQTT.php')?>
+
+<?php
+
+
+
+$name = $_POST['set1'];
+
+
+$point = $_POST['point'];
+echo 'You have selected ' . $point. ' and the temperature has been changed to '. $name;
+
+
+$mqtt = new phpMQTT("146.87.2.99", 1883, 60); //Change client name to something unique
+if ($mqtt->connect()) {
+    $mqtt->publish("/g4/$point", "$name");
+
+
+}
+
+
+$mqtt->close();
