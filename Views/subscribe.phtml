@@ -7,26 +7,39 @@ if(!$mqtt->connect()){
 
 }
 
-//$c = $_POST['c'];
-$topics['/temp'] = array("qos"=>0, "function"=>"procmsg");
+$topic = '';
+$msg = '';
+$topics['/wind_d'] = array("qos"=>0, "function"=>"procmsg");
 
 $mqtt->subscribe($topics,0);
+function procmsg($topic, $msg)
+{
+
+    echo "Msg Recieved: "."\nTopic:{$topic}\n$msg\n";
+    //echo "Msg Recieved: " . date("r") ."\nTopic:{$topic}\n$msg\n";
 
 
-while($mqtt->proc()) {
 
+}
+for ($i = 0; $i < 4; $i++) {
+    if ($mqtt->proc()) {
 
+       procmsg($topic, $msg);
 
-    function procmsg($topic, $msg)
-    {
-
-        echo "Msg Recieved: " . date("r") . "\nTopic:{$topic}\n$msg\n";
 
     }
 
 }
+
+
+
 $mqtt->close();
 
 
 
+?>
+
+<?php
+$url1=$_SERVER['REQUEST_URI'];
+header("Refresh: 1; URL=subscribe.php");
 ?>
