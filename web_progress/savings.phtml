@@ -1,0 +1,285 @@
+<?php
+require_once('header.phtml');
+$money = 10;
+?>
+
+
+<style>
+    canvas{
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+    #chartjs-tooltip {
+        opacity: 1;
+        position: absolute;
+        background: rgba(0, 0, 0, .7);
+        color: white;
+        border-radius: 3px;
+        -webkit-transition: all .1s ease;
+        transition: all .1s ease;
+        pointer-events: none;
+        -webkit-transform: translate(-50%, 0);
+        transform: translate(-50%, 0);
+    }
+
+    .chartjs-tooltip-key {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin-right: 10px;
+    }
+</style>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Savings</h4>
+                        <p class="category">Short description of setpoint 1</p>
+                    </div>
+                    <div class="content">
+                        <div class="content"></div>
+                        <div class="GaugeMeter" data-style="Arch" data-theme="DarkBlue-LightBlue" data-stripe=2.5 data-percent =<?php echo $display1;?>>
+
+                        </div>
+                        <h1><?php echo $display1 . "°"; ?></h1>
+
+                        <div class="footer">
+
+                            <hr>
+                            <div class="stats">
+                                <i class="fa fa-clock-o"></i> Time when set
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Historical Data</h4>
+                        <p class="category">Description of historical data</p>
+                    </div>
+                    <div class="content">
+
+
+                        <div id="canvas-holder1" style="width:75%;">
+                            <canvas id="chart" title="History" />
+                        </div>
+
+
+
+                        <hr>
+                        <div class="stats">
+                            <i class="fa fa-history"></i> Updated 2 minutes ago
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+
+        <div class="col-md-12">
+            <div class="card ">
+                <div class="header">
+                    <h4 class="title">Download</h4>
+                    <p class="category">Savings data</p>
+                </div>
+                <div class="content">
+                    <div class="table-full-width">
+
+                        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                            <div class="content">
+                                <input type="submit" name="downloadBtn" value="Download">
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <div class="footer">
+                        <hr>
+                        <div class="stats">
+                            <i class="fa fa-history"></i> Something
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+</div>
+</div>
+
+
+</body>
+
+<!--   Core JS Files   -->
+<script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
+<script src="assets/js/jquery-3.1.1.js" type="text/javascript"></script>
+<script src="/assets/js/jquery.AshAlom.gaugeMeter-2.0.0.min.js"></script>
+<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+
+<!--  Checkbox, Radio & Switch Plugins -->
+<script src="assets/js/bootstrap-checkbox-radio-switch.js"></script>
+
+<!--  Charts Plugin -->
+<script src="assets/js/chartist.min.js"></script>
+
+<!--  Notifications Plugin    -->
+<script src="assets/js/bootstrap-notify.js"></script>
+
+<!--  Google Maps Plugin    -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+<!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
+<script src="assets/js/light-bootstrap-dashboard.js"></script>
+
+<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
+<script src="assets/js/demo.js"></script>
+
+<script type="text/javascript">
+
+    $(".GaugeMeter").gaugeMeter();
+
+</script>
+
+
+<script src="assets/js/Chart.bundle.js"></script>
+<script src="assets/js/utils.js"></script>
+
+
+<script>
+    Chart.defaults.global.pointHitDetectionRadius = 1;
+
+    var customTooltips = function(tooltip) {
+        // Tooltip Element
+        var tooltipEl = document.getElementById('chartjs-tooltip');
+
+        if (!tooltipEl) {
+            tooltipEl = document.createElement('div');
+            tooltipEl.id = 'chartjs-tooltip';
+            tooltipEl.innerHTML = "<table></table>"
+            document.body.appendChild(tooltipEl);
+        }
+
+        // Hide if no tooltip
+        if (tooltip.opacity === 0) {
+            tooltipEl.style.opacity = 0;
+            return;
+        }
+
+        // Set caret Position
+        tooltipEl.classList.remove('above', 'below', 'no-transform');
+        if (tooltip.yAlign) {
+            tooltipEl.classList.add(tooltip.yAlign);
+        } else {
+            tooltipEl.classList.add('no-transform');
+        }
+
+        function getBody(bodyItem) {
+            return bodyItem.lines;
+        }
+
+        // Set Text
+        if (tooltip.body) {
+            var titleLines = tooltip.title || [];
+            var bodyLines = tooltip.body.map(getBody);
+
+            var innerHtml = '<thead>';
+
+            titleLines.forEach(function(title) {
+                innerHtml += '<tr><th>' + title + '</th></tr>';
+            });
+            innerHtml += '</thead><tbody>';
+
+            bodyLines.forEach(function(body, i) {
+                var colors = tooltip.labelColors[i];
+                var style = 'background:' + colors.backgroundColor;
+                style += '; border-color:' + colors.borderColor;
+                style += '; border-width: 2px';
+                var span = '<span class="chartjs-tooltip-key" style="' + style + '"></span>';
+                innerHtml += '<tr><td>' + span + body + '</td></tr>';
+            });
+            innerHtml += '</tbody>';
+
+            var tableRoot = tooltipEl.querySelector('table');
+            tableRoot.innerHTML = innerHtml;
+        }
+
+        var position = this._chart.canvas.getBoundingClientRect();
+
+        // Display, position, and set styles for font
+        tooltipEl.style.opacity = 1;
+        tooltipEl.style.left = position.left + tooltip.caretX + 'px';
+        tooltipEl.style.top = position.top + tooltip.caretY + 'px';
+        tooltipEl.style.fontFamily = tooltip._fontFamily;
+        tooltipEl.style.fontSize = tooltip.fontSize;
+        tooltipEl.style.fontStyle = tooltip._fontStyle;
+        tooltipEl.style.padding = tooltip.yPadding + 'px ' + tooltip.xPadding + 'px';
+    };
+
+    var lineChartData = {
+        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        datasets: [{
+            label: "Energy Saving",
+            borderColor: window.chartColors.red,
+            pointBackgroundColor: window.chartColors.red,
+            fill: false,
+            data: [
+                <?php foreach((array)$view->dataset as $data){
+                echo $data->getValue();
+            } ?>
+            ]
+        }, {
+            label: "Money Saved",
+            borderColor: window.chartColors.blue,
+            pointBackgroundColor: window.chartColors.blue,
+            fill: false,
+            data: [
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor()
+            ]
+        }]
+    };
+
+    window.onload = function() {
+        var chartEl = document.getElementById("chart");
+        window.myLine = new Chart(chartEl, {
+            type: 'line',
+            data: lineChartData,
+            options: {
+                title:{
+                    display:true,
+                    text:'2016 Savings History Chart'
+                },
+                tooltips: {
+                    enabled: false,
+                    mode: 'index',
+                    position: 'nearest',
+                    custom: customTooltips
+                }
+            }
+        });
+    };
+</script>
+
+</html>
+
+
+
+
+

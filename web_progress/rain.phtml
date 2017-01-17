@@ -1,0 +1,147 @@
+<?php
+require_once('header.phtml');
+?>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Rain</h4>
+                        <p class="category">Short description of setpoint 1</p>
+                    </div>
+                    <div class="content">
+                        <div class="content"></div>
+                        <div class="GaugeMeter" data-style="Arch" data-theme="DarkBlue-LightBlue" data-stripe=2.5 data-percent =<?php echo $display1;?>>
+
+                        </div>
+                        <h1><?php echo $display1 . "°"; ?></h1>
+
+                        <div class="footer">
+
+                            <hr>
+                            <div class="stats">
+                                <i class="fa fa-clock-o"></i> Time when set
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Historical Data</h4>
+                        <p class="category">Description of historical data</p>
+                    </div>
+                    <div class="content">
+
+                        <table class="table table-bordered table-striped table-hover marginTable">
+                            <thead>
+                            <tr>
+
+                                <th><h4 class="display-4">Id</h4></th><th><h4 class="display-4">Value in °C</h4></th><th><h4 class="display-4">Time</h4></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <?php foreach((array)$view->dataset as $data){
+                                echo
+
+
+
+                                    '</td> <td class="col-md-8 col-sm-8 col-lg-8 text-left">'.$data->getId().
+                                    '</td> <td >' . '<h6 class="lead">'.$data->getValue() .'</h6>'.
+                                    '</td> <td >' . '<h6 class="lead">'.$data->getTime() .'</h6>'.
+                                    '</tbody>';
+
+
+                            } ?>
+                        </table>
+
+                        <hr>
+                        <div class="stats">
+                            <i class="fa fa-history"></i> Updated 2 minutes ago
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+
+        <div class="col-md-12">
+            <div class="card ">
+                <div class="header">
+                    <h4 class="title">Download</h4>
+                    <p class="category">Rain data</p>
+                </div>
+                <div class="content">
+                    <div class="table-full-width">
+
+                        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                            <div class="content">
+                                <input type="submit" name="downloadBtn" value="Download">
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <div class="footer">
+                        <hr>
+                        <div class="stats">
+                            <i class="fa fa-history"></i> Something
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+</div>
+</div>
+
+
+</body>
+
+<!--   Core JS Files   -->
+<script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
+<script src="assets/js/jquery-3.1.1.js" type="text/javascript"></script>
+<script src="/assets/js/jquery.AshAlom.gaugeMeter-2.0.0.min.js"></script>
+<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+
+<!--  Checkbox, Radio & Switch Plugins -->
+<script src="assets/js/bootstrap-checkbox-radio-switch.js"></script>
+
+<!--  Charts Plugin -->
+<script src="assets/js/chartist.min.js"></script>
+
+<!--  Notifications Plugin    -->
+<script src="assets/js/bootstrap-notify.js"></script>
+
+<!--  Google Maps Plugin    -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+<!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
+<script src="assets/js/light-bootstrap-dashboard.js"></script>
+
+<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
+<script src="assets/js/demo.js"></script>
+
+<script type="text/javascript">
+
+    $(".GaugeMeter").gaugeMeter();
+
+</script>
+
+</html>
+
+
+
+
+
